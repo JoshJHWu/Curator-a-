@@ -1,3 +1,7 @@
+require 'URI'
+require 'net/http'
+require 'json'
+
 module DashboardHelper
   def call_to_Reddit(term)
     # using search term, makes a call to 3 news subreddits/hot/.json
@@ -9,7 +13,7 @@ module DashboardHelper
     # must return text in this form: {:text=>'text'}
   end
 
-  def call_to_News(term)
+    def call_to_News(term)
     # makes call to news API
     uri = URI("https://api.nytimes.com/svc/search/v2/articlesearch.json")
     http = Net::HTTP.new(uri.host, uri.port)
@@ -21,15 +25,15 @@ module DashboardHelper
     request = Net::HTTP::Get.new(uri.request_uri)
     @result = JSON.parse(http.request(request).body)
 
-    #all the abstracts are stored in @abstracts array
-    @abstracts = []
+    @urls= []
     @result["response"]["docs"].each do |doc|
-        @abstracts << doc["abstract"]
+        @urls << doc["web_url"]
     end
-
 
     # must return text in this form: {:text=>'text'}
   end
+
+   
 
   def call_to_HPE(data)
     json_data = {}

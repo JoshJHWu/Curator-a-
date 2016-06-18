@@ -1,7 +1,11 @@
 module DashboardHelper
   def call_to_Reddit(term)
-    # makes call to Reddit
-
+    # using search term, makes a call to 3 news subreddits/hot/.json
+    # selects top 5 posts from each subreddit
+    # for each post, keeps only URL to the post page
+    # for each post, makes a call to the URL/.json
+    # for each post, parses the JSON data to get only the comments
+    # aggregates all comments in variable
     # must return text in this form: {:text=>'text'}
   end
 

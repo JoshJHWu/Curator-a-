@@ -15,6 +15,6 @@ class DashboardController < ApplicationController
     news_data = call_to_News(term)
     news_data = call_to_HPE(news_data)
 
-    # return what we got in a json
+    # return what we got in a json to the frontend
   end
 end

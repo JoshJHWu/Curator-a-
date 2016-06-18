@@ -12,7 +12,7 @@ module DashboardHelper
   end
 
   def call_to_HPE(data)
-    client = HODClient.new("70fc2009-8d95-475f-8937-a47199558c80")
+    client = HODClient.new(ENV["HPE_KEY"])
 
     # analyzing content
     request = client.post('extractconcepts', data)

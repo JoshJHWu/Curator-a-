@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
     # render erb
   end
 
-  def initialize
+  def search
     # takes the param - search term
     term = params[:term]
 

@@ -16,15 +16,19 @@ module DashboardHelper
   end
 
   def call_to_HPE(data)
+    json_data = {}
     client = HODClient.new(ENV["HPE_KEY"])
 
     # analyzing content
     request = client.post('extractconcepts', data)
+    json_data["concepts"] = JSON.parse(request)
 
     # analyzing sentiments
     # request = client.post('analyzesentiment', {:text=>'I like cats'})
+    # json_data["sentiments"] = JSON.parse(request)
 
-    json_data = JSON.parse(request)
-    # this is where we need to explore what data we get back and how we want to alter it for our frontend
+
+    # this is where we need to explore what data we get back
+    # and how we want to alter it for our frontend
   end
 end

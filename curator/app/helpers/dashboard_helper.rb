@@ -11,6 +11,22 @@ module DashboardHelper
 
   def call_to_News(term)
     # makes call to news API
+    uri = URI("https://api.nytimes.com/svc/search/v2/articlesearch.json")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    uri.query = URI.encode_www_form({
+     "api-key" => "671f68145f854934b4e193b4f17434e2",
+      "q" => term
+    })
+    request = Net::HTTP::Get.new(uri.request_uri)
+    @result = JSON.parse(http.request(request).body)
+
+    #all the abstracts are stored in @abstracts array
+    @abstracts = []
+    @result["response"]["docs"].each do |doc|
+        @abstracts << doc["abstract"]
+    end
+
 
     # must return text in this form: {:text=>'text'}
   end

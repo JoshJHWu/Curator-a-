@@ -73,7 +73,8 @@ module DashboardHelper
     })
     request = Net::HTTP::Get.new(uri.request_uri)
     puts request.class
-    @result = http.request(request).body.to_json
+    @result = JSON.parse(http.request(request).body)
+
     # @urls= []
     # @result["response"]["docs"].each do |doc|
     #     @urls << doc["web_url"]

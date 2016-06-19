@@ -10,14 +10,15 @@ class DashboardController < ApplicationController
     reddit_data = call_to_Reddit(@term)
     news_data = call_to_News(@term)
 
-    # return what we got in a json to the frontend
-    redirect_to json_path(term: @term)
+    render json: {news: news_data, reddit: reddit_data}.to_json, layout: false
   end
 
   def json
-    @term = params[:term]
-    news = call_to_News(@term)
-    reddit = call_to_Reddit(@term)
-    render json: {news: news, reddit: reddit}.to_json, layout: false
+    @term = params[:term].gsub(" ", "+")
+
+    reddit_data = call_to_Reddit(@term)
+    news_data = call_to_News(@term)
+
+    render json: {news: news_data, reddit: reddit_data}.to_json, layout: false
   end
 end

@@ -82,23 +82,4 @@ module DashboardHelper
     # @urls
     # must return text in this form: {:text=>'text'}
   end
-
-
-
-  def call_to_HPE(data)
-    json_data = {}
-    client = HODClient.new(ENV["HPE_KEY"])
-
-    # analyzing content
-    request = client.post('extractconcepts', data)
-    json_data["concepts"] = request.json
-
-    # analyzing sentiments
-    # request = client.post('analyzesentiment', {:text=>'I like cats'})
-    # json_data["sentiments"] = request.json
-
-
-    # this is where we need to explore what data we get back
-    # and how we want to alter it for our frontend
-  end
 end

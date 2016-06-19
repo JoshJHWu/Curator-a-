@@ -14,4 +14,8 @@ class DashboardController < ApplicationController
 
     # return what we got in a json to the frontend
   end
+
+  def json
+    render layout: false
+  end
 end

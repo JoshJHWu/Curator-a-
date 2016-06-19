@@ -11,14 +11,10 @@
     <header class="center">
       <h1 class="header-title">Curator</h1>
       <h3 class="header-subtitle">News Analyzed</h3>
-      <div class="row center">
-        <div class="input-field col s12">
-          <%= form_tag("/search", method: "get") do %>
-            <%= text_field_tag :q, nil, class: 'search-field' %>
-            <%= submit_tag("Search", :class => 'right waves-effect waves-light btn-large') %>
-          <% end %>
-        </div>
-      </div>
+        <%= form_tag("/search", method: "get") do %>
+          <%= text_field_tag :q, nil, class: 'search-field' %>
+          <%= submit_tag("Search", :class => 'right waves-effect waves-light btn-large') %>
+        <% end %>
     </header>
     <%= yield %>
 </div>

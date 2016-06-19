@@ -5,3 +5,8 @@
 @import "materialize/components/color";
 $primary-color: color("blue", "lighten-2") !default;
 @import "materialize";
+
+.search-field {
+  width: 80% !important;
+  height: 55px !important;
+}

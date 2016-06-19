@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   get '/search', to: "dashboard#search"
 
   get '/json', to: "dashboard#json"
+  get '/html', to: "dashboard#html"
 end

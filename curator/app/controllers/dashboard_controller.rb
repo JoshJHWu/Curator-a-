@@ -4,6 +4,10 @@ class DashboardController < ApplicationController
   def index
   end
 
+  def html
+  render partial: "cards", layout: false
+  end
+
   def search
     term = params[:term].gsub(" ", "+")
 

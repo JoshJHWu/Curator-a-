@@ -6,8 +6,8 @@
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-  <div class="container">
+<body class="Site">
+  <div class="container Site-content">
     <header class="center">
       <h1 class="header-title">Curator</h1>
       <h3 class="header-subtitle">News Analyzed</h3>
@@ -25,7 +25,7 @@
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <p class="grey-text text-lighten-4 footer-text">Curator uses the Reddit API and the NYTimes API to pull text data when queried with a search term. Curator has a Rails backend and sends data to the JavaScript and jQuery frontend, which shows up on a beautiful single-page app that was built using Materialize.</p>
+          <p class="grey-text text-lighten-4 footer-text">Curator uses the Reddit API and the NYTimes API to pull text data when queried with a search term. It uses this data to make a call to the HPE Haven OnDemand API, which parses and extracts concepts. These concepts are returned to the frontend, where the jQuery library jQCloud uses it to create beautiful word clouds displaying how the media vs individuals feel about the given search query.</p>
           <p class="grey-text text-lighten-4 footer-text">Curator is built to support API calls. If you'd like to use it, <a class="amber-text text-lighten-4" href="https://github.com/JoshJHWu/Curator-a-">check out our documentation.</a></p>
           <p class="grey-text text-lighten-4 footer-text">Curator was our product for <a class="amber-text text-lighten-4" href="http://angelhack.com/portfolio-item/brooklyn-usa-may-7-8-2016/">AngelHack Brooklyn 2016</a>. We built it in 1.5 days!</p>
         </div>

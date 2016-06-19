@@ -7,9 +7,10 @@ class DashboardController < ApplicationController
     term = params[:term]
 
     reddit_data = call_to_Reddit(term)
+    # {text:"comments", posts:[id:, body:, url:]}
     news_data = call_to_News(term)
 
-    json = {news: news_data, reddit: reddit_data}
+    return {news: news_data, reddit: reddit_data}.to_json
 
     # return what we got in a json to the frontend
   end

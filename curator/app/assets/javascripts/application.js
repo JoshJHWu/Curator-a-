@@ -12,6 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
-//= require jquery
+//= require jqcloud
 //= require materialize-sprockets
+//= require_tree .

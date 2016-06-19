@@ -43,7 +43,21 @@ module DashboardHelper
       json[:posts] << post
     end
 
+    json[:text] = turn_comments_to_array(json[:text])
+
     json
+  end
+
+  def turn_comments_to_array(string)
+    hash = call_to_HPE(string)
+
+    [{text: "Lorem", weight: 15},
+    {text: "Ipsum", weight: 9, link: "http://jquery.com/"},
+    {text: "Dolor", weight: 6, html: {title: "I can haz any html attribute"}},
+    {text: "Sit", weight: 7},
+    {text: "Amet", weight: 5}]
+
+
   end
 
   def call_to_Reddit(term)

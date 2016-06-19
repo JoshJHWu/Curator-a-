@@ -19,6 +19,34 @@
     <div class='yielded-index'>
       <%= yield %>
     </div>
-</div>
+  </div>
+
+  <footer class="page-footer cyan lighten-1">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <p class="grey-text text-lighten-4 footer-text">Curator uses the Reddit API and the NYTimes API to pull text data when queried with a search term. Curator has a Rails backend and sends data to the JavaScript and jQuery frontend, which shows up on a beautiful single-page app that was built using Materialize.</p>
+          <p class="grey-text text-lighten-4 footer-text">Curator is built to support API calls. If you'd like to use it, <a class="amber-text text-lighten-4" href="https://github.com/JoshJHWu/Curator-a-">check out our documentation.</a></p>
+          <p class="grey-text text-lighten-4 footer-text">Curator was our product for <a class="amber-text text-lighten-4" href="http://angelhack.com/portfolio-item/brooklyn-usa-may-7-8-2016/">AngelHack Brooklyn 2016</a>. We built it in 1.5 days!</p>
+        </div>
+        <div class="col l5 offset-l1 s12">
+          <h5 class="white-text">Who we are</h5>
+          <ul>
+            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/JoshJHWu">Josh Wu</a></li>
+            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/mindplace">Esther Leytush</a> put together custom Reddit API calls with recursive comment grabbing.</li>
+            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/seodo">John Seo</a></li>
+            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/RebeccaKleinberg">Rebecca Kleinberg</a> </li>
+            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/sonomar">Lawson Marlowe</a> designed and coded the frontend JavaScript, jQuery, and AJAX, as well as managed layout and styling.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container footer-text">
+      © 2016 Josh Wu, Esther Leytush, John Seo, Rebecca Kleinberg, Lawson Marlowe
+      <a class="amber-text text-lighten-4 right footer-text" href="https://github.com/JoshJHWu/Curator-a-">Come see our code on Github</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

@@ -8,12 +8,12 @@
 </head>
 <body class="Site">
   <div class="container Site-content">
-    <header class="center">
-      <h1 class="header-title">Curator</h1>
-      <h3 class="header-subtitle">News Analyzed</h3>
+    <header>
+      <h1 class="header-title cyan-text">Curator</h1>
+      <h3 class="header-subtitle cyan-text">News Analyzed</h3>
         <%= form_tag("/search", method: "get") do %>
-          <%= text_field_tag :term, nil, class: 'search-field' %>
-          <%= submit_tag("Search", :class => 'right waves-effect waves-light btn-large') %>
+          <%= text_field_tag :term, nil, class: 'search-field cyan-text lighten-1' %>
+          <%= submit_tag("Search", :class => 'right waves-effect waves-light btn-large cyan lighten-1') %>
         <% end %>
     </header>
     <div class='yielded-index'>
@@ -32,11 +32,9 @@
         <div class="col l5 offset-l1 s12">
           <h5 class="white-text">Who we are</h5>
           <ul>
-            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/JoshJHWu">Josh Wu</a></li>
+            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/JoshJHWu">Josh Wu</a>, team lead, worked with <a class="amber-text text-lighten-4" href="https://github.com/seodo">John Seo</a> on the New York Times API.
             <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/mindplace">Esther Leytush</a> put together custom Reddit API calls with recursive comment grabbing.</li>
-            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/seodo">John Seo</a></li>
-            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/RebeccaKleinberg">Rebecca Kleinberg</a> </li>
-            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/sonomar">Lawson Marlowe</a> designed and coded the frontend JavaScript, jQuery, and AJAX, as well as managed layout and styling.</li>
+            <li class="footer-text grey-text text-lighten-4"><a class="amber-text text-lighten-4" href="https://github.com/RebeccaKleinberg">Rebecca Kleinberg</a> and <a class="amber-text text-lighten-4" href="https://github.com/sonomar">Lawson Marlowe</a> designed and coded the frontend JavaScript, jQuery, and AJAX, as well as managed layout and styling.</li>
           </ul>
         </div>
       </div>

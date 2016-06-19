@@ -37,7 +37,8 @@ module DashboardHelper
         comments << " #{recursive_comment_digging(child["data"])} "
       end
 
-      post = {id: id, body: comments, url: url}
+      title = body[0]["data"]["children"][0]["data"]["permalink"]
+      post = {id: id, title: title, url: url[0..-6]}
 
       json[:text] << comments
       json[:posts] << post
@@ -72,14 +73,18 @@ module DashboardHelper
       "q" => term
     })
     request = Net::HTTP::Get.new(uri.request_uri)
-    puts request.class
-    @result = JSON.parse(http.request(request).body)
+    result = JSON.parse(http.request(request).body)
+    results = result["response"]["docs"]
+    json = {text:"", posts: []}
 
-    # @urls= []
-    # @result["response"]["docs"].each do |doc|
-    #     @urls << doc["web_url"]
-    # end
-    # @urls
-    # must return text in this form: {:text=>'text'}
+    results.each_with_index do |article, i|
+      id = i + 1
+      headline = article["headline"]["main"]
+      json[:text] << " #{article["snippet"]} #{article["lead_paragraph"]} #{article["abstract"]}"
+      post = {id: id, title: headline, url: article["web_url"]}
+      json[:posts] << post
+    end
+
+    json
   end
 end

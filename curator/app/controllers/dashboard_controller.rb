@@ -1,17 +1,16 @@
 class DashboardController < ApplicationController
+  include DashboardHelper
+
   def index
-    # render erb
   end
 
   def search
-    term = params[:term]
+    term = params[:q].gsub(" ", "+")
 
+    # {text:"comments", posts:[id:, url:]}
     reddit_data = call_to_Reddit(term)
-    # {text:"comments", posts:[id:, body:, url:]}
     news_data = call_to_News(term)
 
-    return {news: news_data, reddit: reddit_data}.to_json
-
-    # return what we got in a json to the frontend
+    render json: {news: news_data, reddit: reddit_data}.to_json
   end
 end

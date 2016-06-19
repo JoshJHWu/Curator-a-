@@ -3,30 +3,59 @@ require 'open-uri'
 require 'json'
 
 module DashboardHelper
+  def recursive_comment_digging(child, comments="")
+    comments << " #{child["body"]} "
+    if child["replies"].nil? || child["replies"].empty?
+      return comments
+    else
+      child["replies"]["data"]["children"].each do |comment|
+        comments << " #{recursive_comment_digging(comment["data"])} "
+      end
+      return comments
+    end
+  end
+
   def parse_posts(array)
+    json = {text:"", posts: []}
+
     # for each post, makes a call to the URL/.json
-    # for each post, parses the JSON data to get only the comments
-    # aggregates all comments in variable
-    # must return text in this form: {:text=>'text'}
+    array.each_with_index do |post, i|
+      url = post.dup
+      id = i + 1
+
+      uri = URI.parse(url)
+      http = Net::HTTP.new(uri.host)
+      request = Net::HTTP::Get.new(uri.request_uri)
+      request.initialize_http_header({"User-Agent" => "Curator_v0.1_mindplace"})
+      body = http.request(request)
+      body = JSON.parse(body.body)
+
+      # for each post, parses the JSON data to get only the comments
+      comments = ""
+      body[1]["data"]["children"].each do |child|
+        comments << " #{recursive_comment_digging(child["data"])} "
+      end
+
+      post = {id: id, body: comments, url: url}
+
+      json[:text] << comments
+      json[:posts] << post
+    end
+
+    json
   end
 
   def call_to_Reddit(term)
     link_array = []
 
-    # using search term, makes a call to 2 news subreddits/hot/.json
-    # selects top 5 posts from each subreddit
-    world_news = URI.parse("https://www.reddit.com/r/worldnews/search.json?q=#{term}&restrict_sr=on&sort=relevance&limit=5")
-    world_news_response = JSON.parse((Net::HTTP.get_response(world_news)).body)
-    world_news_response["data"]["children"].each do |post|
-      # for each post, keeps only URL to the post page
-      link_array << "https://www.reddit.com#{post["data"]["permalink"]}"
-    end
-
-    usa_news = URI.parse("https://www.reddit.com/r/news/search.json?q=#{term}&restrict_sr=on&sort=relevance&limit=5")
-    usa_news_response = JSON.parse((Net::HTTP.get_response(usa_news)).body)
-    usa_news_response["data"]["children"].each do |post|
-      # for each post, keeps only URL to the post page
-      link_array << "https://www.reddit.com#{post["data"]["permalink"]}"
+    ["worldnews", "news"].each do |subreddit|
+      news = URI.parse("https://www.reddit.com/r/#{subreddit}/search.json?q=#{term}&restrict_sr=on&sort=relevance&limit=1")
+      http = Net::HTTP.new(news.host)
+      request = Net::HTTP::Get.new(news.request_uri)
+      request.initialize_http_header({"User-Agent" => "Curator_v0.1_mindplace"})
+      body = http.request(request)
+      news_response = JSON.parse(body.body)
+      link_array << "https://www.reddit.com#{news_response["data"]["children"][0]["data"]["permalink"][0..-18]}.json"
     end
 
     parse_posts(link_array)

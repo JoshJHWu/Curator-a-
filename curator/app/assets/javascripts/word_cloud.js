@@ -4,5 +4,3 @@
 
 
 // documentation for the word cloud: https://github.com/lucaong/jQCloud
-
-$("#example").jQCloud(word_array);

@@ -12,6 +12,14 @@ $primary-color: color("blue", "lighten-2") !default;
 }
 
 .card {
-	height: 300px !important;
+	height: 200px !important;
+	overflow: scroll !important;
+}
+
+.jqcloud {
+	padding: 0 !important;
+	height: 180px !important;
+	margin: 0px !important;
+	margin-top: 30px !important;
 	overflow: scroll !important;
 }

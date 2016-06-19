@@ -1,10 +1,12 @@
-var partialRequest = function(newsInfo, redditInfo) {
+var partialRequest = function(newsInfo, redditInfo, redditArray, newsArray) {
 	$.ajax({
 		type: "get",
 	  url: "/html",
 	  data: $(this).serialize()
 	}).done(function(partialResults) {
 		$(".yielded-index").html(partialResults);
+		$("#reddit-cloud").jQCloud(redditArray);
+		$("#nyt-cloud").jQCloud(newsArray);
 		for(i = 0; i < redditInfo.length; i++) {
 			$("#reddit-card-action ul").append("<li><a href=" + redditInfo[i].url + "></a></li>");
 			$("#reddit-card-action ul li").eq(i).children().text(redditInfo[i].title);
@@ -32,8 +34,10 @@ $(document).ready(function() {
 	    }).done(function(results) {
     		newsInfo = results.news.posts;
     		redditInfo = results.reddit.posts;
+    		redditArray = results.reddit.array;
+    		newsArray = results.news.array;
 	    	console.log(results);
-	    	partialRequest(newsInfo, redditInfo);
+	    	partialRequest(newsInfo, redditInfo, redditArray, newsArray);
 	    });
 	});
 });

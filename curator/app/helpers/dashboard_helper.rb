@@ -100,4 +100,8 @@ module DashboardHelper
 
     json
   end
+
+  def call_to_HPE(string)
+
+  end
 end

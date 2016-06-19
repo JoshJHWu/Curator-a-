@@ -24,6 +24,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # word cloud
 gem "jqcloud-rails"
 
+# Haven OnDemand
+gem "havenondemand"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

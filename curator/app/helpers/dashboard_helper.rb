@@ -1,19 +1,68 @@
 require 'URI'
 require 'net/http'
+require 'open-uri'
 require 'json'
 
 module DashboardHelper
-  def call_to_Reddit(term)
-    # using search term, makes a call to 3 news subreddits/hot/.json
-    # selects top 5 posts from each subreddit
-    # for each post, keeps only URL to the post page
-    # for each post, makes a call to the URL/.json
-    # for each post, parses the JSON data to get only the comments
-    # aggregates all comments in variable
-    # must return text in this form: {:text=>'text'}
+  def recursive_comment_digging(child, comments="")
+    comments << " #{child["body"]} "
+    if child["replies"].nil? || child["replies"].empty?
+      return comments
+    else
+      child["replies"]["data"]["children"].each do |comment|
+        comments << " #{recursive_comment_digging(comment["data"])} "
+      end
+      return comments
+    end
   end
 
-    def call_to_News(term)
+  def parse_posts(array)
+    json = {text:"", posts: []}
+
+    # for each post, makes a call to the URL/.json
+    array.each_with_index do |post, i|
+      url = post.dup
+      id = i + 1
+
+      uri = URI.parse(url)
+      http = Net::HTTP.new(uri.host)
+      request = Net::HTTP::Get.new(uri.request_uri)
+      request.initialize_http_header({"User-Agent" => "Curator_v0.1_mindplace"})
+      body = http.request(request)
+      body = JSON.parse(body.body)
+
+      # for each post, parses the JSON data to get only the comments
+      comments = ""
+      body[1]["data"]["children"].each do |child|
+        comments << " #{recursive_comment_digging(child["data"])} "
+      end
+
+      post = {id: id, body: comments, url: url}
+
+      json[:text] << comments
+      json[:posts] << post
+    end
+
+    json
+  end
+
+  def call_to_Reddit(term)
+    link_array = []
+
+    ["worldnews", "news"].each do |subreddit|
+      news = URI.parse("https://www.reddit.com/r/#{subreddit}/search.json?q=#{term}&restrict_sr=on&sort=relevance&limit=1")
+      http = Net::HTTP.new(news.host)
+      request = Net::HTTP::Get.new(news.request_uri)
+      request.initialize_http_header({"User-Agent" => "Curator_v0.1_mindplace"})
+      body = http.request(request)
+      news_response = JSON.parse(body.body)
+      link_array << "https://www.reddit.com#{news_response["data"]["children"][0]["data"]["permalink"][0..-18]}.json"
+    end
+
+    parse_posts(link_array)
+  end
+
+  def call_to_News(term)
     # makes call to news API
     uri = URI("https://api.nytimes.com/svc/search/v2/articlesearch.json")
     http = Net::HTTP.new(uri.host, uri.port)
@@ -34,7 +83,7 @@ module DashboardHelper
     # must return text in this form: {:text=>'text'}
   end
 
-   
+
 
   def call_to_HPE(data)
     json_data = {}
@@ -42,11 +91,11 @@ module DashboardHelper
 
     # analyzing content
     request = client.post('extractconcepts', data)
-    json_data["concepts"] = JSON.parse(request)
+    json_data["concepts"] = request.json
 
     # analyzing sentiments
     # request = client.post('analyzesentiment', {:text=>'I like cats'})
-    # json_data["sentiments"] = JSON.parse(request)
+    # json_data["sentiments"] = request.json
 
 
     # this is where we need to explore what data we get back

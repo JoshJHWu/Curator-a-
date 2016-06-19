@@ -82,10 +82,6 @@ module DashboardHelper
     # @urls
     # must return text in this form: {:text=>'text'}
   end
-<<<<<<< HEAD
-=======
-
-
 
   def call_to_HPE(data)
     # json_data = {}
@@ -103,5 +99,4 @@ module DashboardHelper
     # # this is where we need to explore what data we get back
     # and how we want to alter it for our frontend
   end
->>>>>>> pause for break but onto something
 end

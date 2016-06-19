@@ -21,6 +21,7 @@ class DashboardController < ApplicationController
   def json
     @term = params[:term]
     news = call_to_News(@term)
-    render json: news, layout: false
+    reddit = call_to_Reddit(@term)
+    render json: {news: news, reddit: reddit}.to_json, layout: false
   end
 end

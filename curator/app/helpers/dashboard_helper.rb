@@ -1,3 +1,4 @@
+require 'havenondemand'
 require 'net/http'
 require 'open-uri'
 require 'json'
@@ -16,8 +17,8 @@ module DashboardHelper
   end
 
   def parse_posts(array)
-    json = {text:"", posts: []}
-
+    json = {array:[], posts: []}
+    text = ""
     # for each post, makes a call to the URL/.json
     array.each_with_index do |post, i|
       url = post.dup
@@ -39,25 +40,12 @@ module DashboardHelper
       title = body[0]["data"]["children"][0]["data"]["title"]
       post = {id: id, title: title, url: url[0..-6]}
 
-      json[:text] << comments
+      text << comments
       json[:posts] << post
     end
 
-    json[:text] = turn_comments_to_array(json[:text])
-
+    json[:array] = call_to_HPE(text)
     json
-  end
-
-  def turn_comments_to_array(string)
-    hash = call_to_HPE(string)
-
-    [{text: "Lorem", weight: 15},
-    {text: "Ipsum", weight: 9, link: "http://jquery.com/"},
-    {text: "Dolor", weight: 6, html: {title: "I can haz any html attribute"}},
-    {text: "Sit", weight: 7},
-    {text: "Amet", weight: 5}]
-
-
   end
 
   def call_to_Reddit(term)
@@ -88,20 +76,32 @@ module DashboardHelper
     request = Net::HTTP::Get.new(uri.request_uri)
     result = JSON.parse(http.request(request).body)
     results = result["response"]["docs"]
-    json = {text:"", posts: []}
+
+    json = {array:[], posts: []}
+    text = ""
 
     results.each_with_index do |article, i|
       id = i + 1
       headline = article["headline"]["main"]
-      json[:text] << " #{article["snippet"]} #{article["lead_paragraph"]} #{article["abstract"]}"
+      text << " #{article["snippet"]} #{article["lead_paragraph"]} #{article["abstract"]}"
       post = {id: id, title: headline, url: article["web_url"]}
       json[:posts] << post
     end
 
+    json[:array] = call_to_HPE(text)
     json
   end
 
   def call_to_HPE(string)
+    client = HODClient.new("70fc2009-8d95-475f-8937-a47199558c80")
+    result = client.post('extractconcepts', {:text=>string})
 
+    result_array = []
+    result.response.body["concepts"].each do |concept|
+      next unless concept["concept"].length >= 4
+      result_array << {text: concept["concept"], weight: concept["occurrences"]}
+    end
+
+    result_array
   end
 end

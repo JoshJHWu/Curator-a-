@@ -10,3 +10,8 @@ $primary-color: color("blue", "lighten-2") !default;
   width: 80% !important;
   height: 55px !important;
 }
+
+.card {
+	height: 300px !important;
+	overflow: scroll !important;
+}

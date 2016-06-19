@@ -37,7 +37,7 @@ module DashboardHelper
         comments << " #{recursive_comment_digging(child["data"])} "
       end
 
-      title = body[0]["data"]["children"][0]["data"]["permalink"]
+      title = body[0]["data"]["children"][0]["data"]["title"]
       post = {id: id, title: title, url: url[0..-6]}
 
       json[:text] << comments

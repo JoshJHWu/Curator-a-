@@ -1,3 +1,4 @@
+require 'URI'
 require 'net/http'
 require 'open-uri'
 require 'json'
@@ -63,9 +64,26 @@ module DashboardHelper
 
   def call_to_News(term)
     # makes call to news API
+    uri = URI("https://api.nytimes.com/svc/search/v2/articlesearch.json")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    uri.query = URI.encode_www_form({
+     "api-key" => "671f68145f854934b4e193b4f17434e2",
+      "q" => term
+    })
+    request = Net::HTTP::Get.new(uri.request_uri)
+    puts request.class
+    @result = JSON.parse(http.request(request).body)
 
+    # @urls= []
+    # @result["response"]["docs"].each do |doc|
+    #     @urls << doc["web_url"]
+    # end
+    # @urls
     # must return text in this form: {:text=>'text'}
   end
+
+
 
   def call_to_HPE(data)
     json_data = {}

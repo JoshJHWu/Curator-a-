@@ -7,8 +7,18 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <div class="container">
+    <header class="center">
+      <h1 class="header-title">Curator</h1>
+      <h3 class="header-subtitle">News Analyzed</h3>
+        <%= form_tag("/search", method: "get") do %>
+          <%= text_field_tag :q, nil, class: 'search-field' %>
+          <%= submit_tag("Search", :class => 'right waves-effect waves-light btn-large') %>
+        <% end %>
+    </header>
+    <div class='yielded-index'>
+      <%= yield %>
+    </div>
+</div>
 </body>
 </html>
